@@ -12,8 +12,8 @@ class User(Base):
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    user_name = Column(String(250))
-    user_last_name = Column(String(250))
+    user_name = Column(String(250), nullable=False)
+    user_last_name = Column(String(250), nullable=False )
     email = Column(String(250), nullable=False)
     password = Column(String(250), nullable=False)
     date = Column(Date, nullable=False)
@@ -26,7 +26,9 @@ class Planets(Base):
     id = Column(Integer, primary_key=True)
     planet_name = Column(String(250), nullable=False)
     poblacion = Column(Integer, nullable=False)
-    Clima = Column(String(250), nullable=False)
+    clima = Column(String(250), nullable=False)
+    diametro = Column(Integer, nullable=False)
+    periodo_rotación = Column(Integer, nullable=False)
 
     def to_dict(self):
         return {}
@@ -50,6 +52,7 @@ class Vehicle(Base):
     carga = Column(Integer, nullable=False)
     capacidad = Column(Integer, nullable=False)
     marca = Column(String(250), nullable=False)
+    modelo = Column(String(250), nullable=False)
 
     def to_dict(self):
         return {}
@@ -80,6 +83,19 @@ class FavoriteVehicles(Base):
 
     def to_dict(self):
         return {}
+
+class Favorites(Base):
+    __tablename__ = 'favorites'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey(User.id))
+    user_name = Column()
+    Character = Column(Integer, ForeignKey(FavoriteCharacter.id))
+    Planet = Column(Integer, ForeignKey(FavoritePlanet.id))
+    Vehicles = Column(Integer, ForeignKey(FavoriteVehicles.id))
+
+    def to_dict(self):
+        return {}
+
 
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagram.png')
